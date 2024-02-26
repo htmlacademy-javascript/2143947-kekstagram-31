@@ -51,9 +51,6 @@ const shuffleArray = (array) => {
   return array;
 };
 
-// eslint-disable-next-line
-console.log(shuffleArray(randomNumberArray(PHOTOS_RANGE[0], PHOTOS_RANGE[1])));
-
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
