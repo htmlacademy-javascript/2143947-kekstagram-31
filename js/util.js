@@ -3,13 +3,13 @@ const randomNumberArray = (min, max) => {
   for (let i = min; i <= max; i++) {
     array.push(i);
   }
+
   return array;
 };
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-
     const temp = array[i];
     array[i] = array[j];
     array[j] = temp;
@@ -22,6 +22,7 @@ const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
+
   return Math.floor(result);
 };
 
