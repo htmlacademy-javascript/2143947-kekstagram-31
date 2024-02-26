@@ -1,4 +1,4 @@
-const randomNumberArray = (min, max) => {
+export const randomNumberArray = (min, max) => {
   const array = [];
   for (let i = min; i <= max; i++) {
     array.push(i);
@@ -7,7 +7,7 @@ const randomNumberArray = (min, max) => {
   return array;
 };
 
-const shuffleArray = (array) => {
+export const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     const temp = array[i];
@@ -18,7 +18,7 @@ const shuffleArray = (array) => {
   return array;
 };
 
-const getRandomInteger = (a, b) => {
+export const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
@@ -26,6 +26,4 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
-export {randomNumberArray, shuffleArray, getRandomInteger, getRandomArrayElement};
+export const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];

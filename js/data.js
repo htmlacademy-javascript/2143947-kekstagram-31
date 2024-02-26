@@ -1,17 +1,17 @@
-const PHOTOS_COUNT = 25;
-const PHOTOS_RANGE = [1, PHOTOS_COUNT];
-const LIKES_RANGE = [15, 200];
-const USERS_AVATAR_INDEXES = [1, 6];
-const COMMENTS_RANGE = [1, 20];
+export const PHOTOS_COUNT = 25;
+export const PHOTOS_RANGE = [1, PHOTOS_COUNT];
+export const LIKES_RANGE = [15, 200];
+export const USERS_AVATAR_INDEXES = [1, 6];
+export const COMMENTS_RANGE = [1, 20];
 
-const DESCRIPTIONS = [
+export const DESCRIPTIONS = [
   'Закат',
   'Лесной пейзаж',
   'На берегу моря',
   'В горах',
 ];
 
-const MESSAGES = [
+export const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -20,7 +20,7 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const NAMES = [
+export const NAMES = [
   'Иван',
   'Мария',
   'Сергей',
@@ -30,5 +30,3 @@ const NAMES = [
   'Андрей',
   'Михаил',
 ];
-
-export {PHOTOS_COUNT, PHOTOS_RANGE, LIKES_RANGE, USERS_AVATAR_INDEXES, COMMENTS_RANGE, DESCRIPTIONS, MESSAGES, NAMES};
