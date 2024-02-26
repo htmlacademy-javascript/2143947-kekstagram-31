@@ -1,6 +1,5 @@
 const PHOTOS_COUNT = 25;
-const PHOTO_ID_RANGE = [1, 25];
-const PHOTO_NUMBERS_RANGE = [1, 25];
+const PHOTOS_RANGE = [1, PHOTOS_COUNT];
 const LIKES_RANGE = [15, 200];
 const USERS_AVATAR_INDEXES = [1, 6];
 const COMMENTS_RANGE = [1, 20];
@@ -32,15 +31,28 @@ const NAMES = [
   'Михаил',
 ];
 
-// Пробовал пойти от массива со случайными числами, но реально числа повторяются.
+const randomNumberArray = (min, max) => {
+  const array = [];
+  for (let i = min; i <= max; i++) {
+    array.push(i);
+  }
+  return array;
+};
 
-// const randomNumberArray = (min, max) => {
-//   const array = [];
-//   for (let i = min; i <= max; i++) {
-//     array.push(i);
-//   }
-//   return array;
-// };
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+
+  return array;
+};
+
+// eslint-disable-next-line
+console.log(shuffleArray(randomNumberArray(PHOTOS_RANGE[0], PHOTOS_RANGE[1])));
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -50,30 +62,6 @@ const getRandomInteger = (a, b) => {
 };
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
-const getUniqueValue = (min, max) => {
-  const previousValue = [];
-
-  const value = () => {
-    let currentValue = getRandomInteger(min, max);
-
-    if (previousValue.length >= (max - min + 1)) {
-      return null;
-    }
-
-    while (previousValue.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-
-    previousValue.push(currentValue);
-
-    return currentValue;
-  };
-
-  return value();
-
-  // значения в итоговом массиве все равно повторяются.
-};
 
 const getComments = () => {
   const comments = [];
@@ -90,15 +78,23 @@ const getComments = () => {
   return comments;
 };
 
-const getPhoto = () => ({
-  id: getUniqueValue(PHOTO_ID_RANGE[0], PHOTO_ID_RANGE[1]), // эти значения повторяются.
-  url: `photos/${getUniqueValue(PHOTO_NUMBERS_RANGE[0], PHOTO_NUMBERS_RANGE[1])}.jpg`, // эти значения повторяются.
-  description: getRandomArrayElement(DESCRIPTIONS),
-  likes: getRandomInteger(LIKES_RANGE[0], LIKES_RANGE[1]),
-  comments:  getComments(),
-});
+const getPhotos = () => {
+  const photos = [];
+  const randomId = shuffleArray(randomNumberArray(PHOTOS_RANGE[0], PHOTOS_RANGE[1]));
+  const randomUrl = shuffleArray(randomNumberArray(PHOTOS_RANGE[0], PHOTOS_RANGE[1]));
 
-const similarPhotos = Array.from({length: PHOTOS_COUNT}, getPhoto);
+  for (let i = 0; i < PHOTOS_COUNT; i++) {
+    photos.push ({
+      id: randomId[i],
+      url: `photos/${randomUrl[i]}.jpg`,
+      description: getRandomArrayElement(DESCRIPTIONS),
+      likes: getRandomInteger(LIKES_RANGE[0], LIKES_RANGE[1]),
+      comments:  getComments(),
+    },);
+  }
+
+  return photos;
+};
 
 // eslint-disable-next-line
-console.log(similarPhotos);
+console.log(getPhotos());
