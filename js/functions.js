@@ -42,3 +42,33 @@ const extractNumbers = (string) => {
 
 // eslint-disable-next-line
 console.log(`Ожидаемый результат 2023:`, extractNumbers('2023 год'));
+
+// Планирование времени встречи
+
+const checkMeetingTime = (startTime, endTime, meetingTime, meetingDuration) => {
+  const translateTimeToMinutes = (time) => {
+    const [hour, minute] = time.split(':');
+    return parseInt(hour, 10) * 60 + parseInt(minute, 10);
+  };
+
+  if (translateTimeToMinutes(startTime) > translateTimeToMinutes(meetingTime) || translateTimeToMinutes(endTime) <= translateTimeToMinutes(meetingTime)) {
+    return false;
+  }
+
+  if (translateTimeToMinutes(endTime) - translateTimeToMinutes(meetingTime) < meetingDuration) {
+    return false;
+  }
+
+  return true;
+};
+
+// eslint-disable-next-line
+console.log(`Ожидаемый результат true`, checkMeetingTime('08:00', '17:30', '14:00', 90));
+// eslint-disable-next-line
+console.log(`Ожидаемый результат true`, checkMeetingTime('8:0', '10:0', '8:0', 120));
+// eslint-disable-next-line
+console.log(`Ожидаемый результат false`, checkMeetingTime('08:00', '14:30', '14:00', 90));
+// eslint-disable-next-line
+console.log(`Ожидаемый результат false`, checkMeetingTime('14:00', '17:30', '08:0', 90));
+// eslint-disable-next-line
+console.log(`Ожидаемый результат false`, checkMeetingTime('8:00', '17:30', '08:00', 900));

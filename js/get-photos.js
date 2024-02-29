@@ -1,37 +1,43 @@
-import {PHOTOS_COUNT, PHOTOS_RANGE, LIKES_RANGE, USERS_AVATAR_INDEXES, COMMENTS_RANGE, DESCRIPTIONS, MESSAGES, NAMES} from './data.js';
+import * as data from './data.js';
 import {randomNumberArray, shuffleArray, getRandomInteger, getRandomArrayElement} from './util.js';
 
-const getComments = () => {
+const getCommentsCount = () => getRandomInteger(data.COMMENTS_RANGE[0], data.COMMENTS_RANGE[1]);
+const getRandomAvatar = () => getRandomInteger(data.USERS_AVATAR_INDEXES[0], data.USERS_AVATAR_INDEXES[1]);
+const getRandomMessage = () => getRandomArrayElement(data.MESSAGES);
+const getRandomName = () => getRandomArrayElement(data.NAMES);
+
+export const getComments = (count, avatar, message, name) => {
   const comments = [];
 
-  for (let i = 0; i < getRandomInteger(COMMENTS_RANGE[0], COMMENTS_RANGE[1]); i++) {
+  for (let i = 0; i < count(); i++) {
     comments.push({
       id: i + 1,
-      avatar: `img/avatar-${getRandomInteger(USERS_AVATAR_INDEXES[0], USERS_AVATAR_INDEXES[1])}.svg`,
-      message: getRandomArrayElement(MESSAGES),
-      name: getRandomArrayElement(NAMES),
+      avatar: `img/avatar-${avatar()}.svg`,
+      message: message(),
+      name: name(),
     },);
   }
 
   return comments;
 };
 
-const getPhotos = () => {
-  const photos = [];
-  const randomIdArray = shuffleArray(randomNumberArray(PHOTOS_RANGE[0], PHOTOS_RANGE[1]));
-  const randomUrlArray = shuffleArray(randomNumberArray(PHOTOS_RANGE[0], PHOTOS_RANGE[1]));
+export const randomIdArray = shuffleArray(randomNumberArray(data.PHOTOS_RANGE[0], data.PHOTOS_RANGE[1]));
+export const randomUrlArray = shuffleArray(randomNumberArray(data.PHOTOS_RANGE[0], data.PHOTOS_RANGE[1]));
+export const getRandomDescription = () => getRandomArrayElement(data.DESCRIPTIONS);
+export const getRandomLikes = () => getRandomInteger(data.LIKES_RANGE[0], data.LIKES_RANGE[1]);
 
-  for (let i = 0; i < PHOTOS_COUNT; i++) {
+export const getPhotos = (id, url, description, likes, comments) => {
+  const photos = [];
+
+  for (let i = 0; i < data.PHOTOS_COUNT; i++) {
     photos.push ({
-      id: randomIdArray[i],
-      url: `photos/${randomUrlArray[i]}.jpg`,
-      description: getRandomArrayElement(DESCRIPTIONS),
-      likes: getRandomInteger(LIKES_RANGE[0], LIKES_RANGE[1]),
-      comments:  getComments(),
+      id: id[i],
+      url: `photos/${url[i]}.jpg`,
+      description: description(),
+      likes: likes(),
+      comments:  comments(getCommentsCount, getRandomAvatar, getRandomMessage, getRandomName),
     },);
   }
 
   return photos;
 };
-
-export {getPhotos};
