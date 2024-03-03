@@ -1,1 +1,3 @@
-import './show-pictures.js';
+import './pictures.js';
+import './modal.js';
+import './big-picture.js';

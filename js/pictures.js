@@ -1,9 +1,10 @@
 import * as data from './get-photos.js';
 
+
 const otherUsersPicturesList = document.querySelector('.pictures');
 const otherUserPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const otherUserPicture = data.getPhotos(data.randomIdArray, data.randomUrlArray, data.getRandomDescription, data.getRandomLikes, data.getComments);
+export const otherUserPicture = data.getPhotos(data.randomIdArray, data.randomUrlArray, data.getRandomDescription, data.getRandomLikes, data.getComments);
 
 const otherUserPictureFragment = document.createDocumentFragment();
 
