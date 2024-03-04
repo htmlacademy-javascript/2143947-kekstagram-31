@@ -1,6 +1,5 @@
 import * as data from './get-photos.js';
 
-
 const otherUsersPicturesList = document.querySelector('.pictures');
 const otherUserPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -18,3 +17,5 @@ otherUserPicture.forEach((photo) => {
 });
 
 otherUsersPicturesList.appendChild(otherUserPictureFragment);
+
+
