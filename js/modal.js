@@ -1,16 +1,10 @@
 import {isEscapeKey} from './util.js';
+import {otherUsersPicturesList} from './pictures.js';
 
 const body = document.querySelector('body');
 export const bigPictureElement = document.querySelector('.big-picture');
 export const pictures = document.querySelectorAll('.picture');
 export const bigPictureCloseElement = document.querySelector('.big-picture__cancel');
-
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    bigPictureClose();
-  }
-}; // Данная функция была приведена в качестве примера в разборе "Кода и магии", но линтер на нее ругается. Почему?
 
 const bigPictureOpen = () => {
   bigPictureElement.classList.remove('hidden');
@@ -26,8 +20,17 @@ const bigPictureClose = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-pictures.forEach((picture) => {
-  picture.addEventListener('click', bigPictureOpen);
+function onDocumentKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    bigPictureClose();
+  }
+}
+
+otherUsersPicturesList.addEventListener('click', (evt) => {
+  if (evt.target.closest('.picture')) {
+    bigPictureOpen();
+  }
 });
 
 bigPictureCloseElement.addEventListener('click', bigPictureClose);
