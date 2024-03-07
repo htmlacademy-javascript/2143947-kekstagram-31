@@ -3,6 +3,7 @@ export const PHOTOS_RANGE = [1, PHOTOS_COUNT];
 export const LIKES_RANGE = [15, 200];
 export const USERS_AVATAR_INDEXES = [1, 6];
 export const COMMENTS_RANGE = [1, 50];
+export const COMMENTS_SHOWN = 2;
 
 export const DESCRIPTIONS = [
   'Закат',
