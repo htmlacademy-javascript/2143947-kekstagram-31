@@ -1,68 +1,67 @@
-import {bigPictureElement} from './modal.js';
-import {otherUsersPicturesList, otherUsersPictures} from './pictures.js';
+import {gallery} from './pictures.js';
 import {COMMENTS_SHOWN} from './data.js';
 
-// const socialComments = document.querySelector('.social__comments');
+const socialComments = document.querySelector('.social__comments');
+const bigPicturePreview = document.querySelector('.big-picture__preview');
 
-otherUsersPicturesList.addEventListener('click', (evt) => {
-  if (evt.target.closest('.picture')) {
-    otherUsersPictures.forEach((photo) => {
-      bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = photo.url;
-      bigPictureElement.querySelector('.likes-count').textContent = photo.likes;
-      bigPictureElement.querySelector('.social__comment-total-count').textContent = photo.comments.length;
-      bigPictureElement.querySelector('.social__caption').textContent = photo.description;
-    });
+export const bigPictureRender = (evt) => {
+  const id = evt.target.closest('.picture').getAttribute('dataId');
+  const photo = gallery.get(id);
 
-    bigPictureElement.querySelector('.social__comment-shown-count').textContent = COMMENTS_SHOWN;
-    bigPictureElement.querySelector('.social__comment-count').classList.add('hidden'); // временно убираем по заданию.
-    bigPictureElement.querySelector('.comments-loader').classList.add('hidden'); // временно убираем по заданию.
+  bigPicturePreview.querySelector('.big-picture__img img').src = photo.url;
+  bigPicturePreview.querySelector('.likes-count').textContent = photo.likes;
+  bigPicturePreview.querySelector('.social__comment-total-count').textContent = photo.comments.length;
+  bigPicturePreview.querySelector('.social__caption').textContent = photo.description;
+
+  const commentFragment = document.createDocumentFragment();
+
+  photo.comments.forEach((comment) => {
+    const commentElement = socialComments.querySelector('.social__comment').cloneNode(true);
+    commentElement.querySelector('.social__picture').src = comment.avatar;
+    commentElement.querySelector('.social__picture').alt = comment.name;
+    commentElement.querySelector('.social__text').textContent = comment.message;
+    commentFragment.appendChild(commentElement);
+  });
+
+  socialComments.innerHTML = null;
+  socialComments.appendChild(commentFragment);
+
+  const socialCommentsNodeList = socialComments.querySelectorAll('.social__comment');
+
+  bigPicturePreview.querySelector('.comments-loader').classList.add('hidden');
+
+  if (socialCommentsNodeList.length <= COMMENTS_SHOWN) {
+    bigPicturePreview.querySelector('.social__comment-shown-count').textContent = socialCommentsNodeList.length;
+  } else {
+    bigPicturePreview.querySelector('.social__comment-shown-count').textContent = COMMENTS_SHOWN;
   }
-});
 
-/*
-Вопросы к созвону:
-1. Как убрать ошибку при объявлении функции onDocumentKeydown? Просто ее отдельно не выносить? (выполнено)
-2. Почему данные применяются только к последнему изображению?
-3. Как выводить комментарии, чтобы они отображались все?
-4. Как ввести ограничение на вывод заданного количества комментариев с последующей подгрузкой того-же количества?
-5. Чем здесь может помочь Map?
-*/
+  for (let i = 0; i < socialCommentsNodeList.length; i++) {
+    let acc = COMMENTS_SHOWN;
+    socialCommentsNodeList[i].classList.add('hidden');
 
-// pictures.forEach((picture) => {
-//   picture.addEventListener('click', () => {
-//     bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = picture.querySelector('.picture__img').src;
-//     bigPictureElement.querySelector('.likes-count').textContent = picture.querySelector('.picture__likes').textContent;
-//     bigPictureElement.querySelector('.social__comment-shown-count').textContent = COMMENTS_SHOWN;
-//     bigPictureElement.querySelector('.social__comment-total-count').textContent = picture.querySelector('.picture__comments').textContent;
-//     bigPictureElement.querySelector('.social__caption').textContent = picture.querySelector('.picture__img').alt;
+    if (i < COMMENTS_SHOWN) {
+      socialCommentsNodeList[i].classList.remove('hidden');
+    }
 
-//     bigPictureElement.querySelector('.social__comment-count').classList.add('hidden'); // временно убираем по заданию.
-//     bigPictureElement.querySelector('.comments-loader').classList.add('hidden'); // временно убираем по заданию.
+    if (socialCommentsNodeList.length > COMMENTS_SHOWN) {
+      bigPicturePreview.querySelector('.comments-loader').classList.remove('hidden');
+    }
 
-//     otherUserPictures.forEach((photo) => {
-//       for (let i = 0; i < socialComments.length; i++) {
-//         socialComments.querySelector('.social__picture').src = photo.comments[i].avatar;
-//         socialComments.querySelector('.social__text').textContent = photo.comments[i].message;
-//       }
-//     });
-//   });
-// });
+    bigPicturePreview.querySelector('.comments-loader').addEventListener('click', () => {
+      acc += COMMENTS_SHOWN;
 
-// otherUserPicture.forEach((photo) => {
-//   photo.addEventListener('click', () => {
-//     bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = photo.url;
-//     bigPictureElement.querySelector('.likes-count').textContent = photo.likes;
-//     bigPictureElement.querySelector('.social__comment-shown-count').textContent = COMMENTS_SHOWN;
-//     bigPictureElement.querySelector('.social__comment-total-count').textContent = photo.comments.length;
-//     bigPictureElement.querySelector('.social__caption').textContent = photo.description;
+      if (i < acc) {
+        socialCommentsNodeList[i].classList.remove('hidden');
+      }
 
-//     bigPictureElement.querySelector('.social__comment-count').classList.add('hidden'); // временно убираем по заданию.
-//     bigPictureElement.querySelector('.comments-loader').classList.add('hidden'); // временно убираем по заданию.
+      if (acc >= socialCommentsNodeList.length) {
+        acc = socialCommentsNodeList.length;
+        // bigPicturePreview.querySelector('.comments-loader').classList.add('hidden');
+      }
 
-//     otherUserPicture.forEach((photo) => {
-//       bigPictureElement.querySelector('.social__comments').querySelector('.social__picture').src = photo.comments.avatar;
-//       bigPictureElement.querySelector('.social__text').textContent = photo.comments.message;
-//     });
+      bigPicturePreview.querySelector('.social__comment-shown-count').textContent = acc;
+    });
+  }
+};
 
-//   });
-// });

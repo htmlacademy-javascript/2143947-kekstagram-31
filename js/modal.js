@@ -1,10 +1,10 @@
 import {isEscapeKey} from './util.js';
 import {otherUsersPicturesList} from './pictures.js';
+import {bigPictureRender} from './big-picture.js';
 
 const body = document.querySelector('body');
-export const bigPictureElement = document.querySelector('.big-picture');
-export const pictures = document.querySelectorAll('.picture');
-export const bigPictureCloseElement = document.querySelector('.big-picture__cancel');
+const bigPictureElement = document.querySelector('.big-picture');
+const bigPictureCloseElement = document.querySelector('.big-picture__cancel');
 
 const bigPictureOpen = () => {
   bigPictureElement.classList.remove('hidden');
@@ -30,6 +30,7 @@ function onDocumentKeydown(evt) {
 otherUsersPicturesList.addEventListener('click', (evt) => {
   if (evt.target.closest('.picture')) {
     bigPictureOpen();
+    bigPictureRender(evt);
   }
 });
 
