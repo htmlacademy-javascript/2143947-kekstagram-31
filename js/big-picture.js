@@ -25,43 +25,42 @@ export const bigPictureRender = (evt) => {
 
   socialComments.innerHTML = null;
   socialComments.appendChild(commentFragment);
-
-  const socialCommentsNodeList = socialComments.querySelectorAll('.social__comment');
-
-  bigPicturePreview.querySelector('.comments-loader').classList.add('hidden');
-
-  if (socialCommentsNodeList.length <= COMMENTS_SHOWN) {
-    bigPicturePreview.querySelector('.social__comment-shown-count').textContent = socialCommentsNodeList.length;
-  } else {
-    bigPicturePreview.querySelector('.social__comment-shown-count').textContent = COMMENTS_SHOWN;
-  }
-
-  for (let i = 0; i < socialCommentsNodeList.length; i++) {
-    let acc = COMMENTS_SHOWN;
-    socialCommentsNodeList[i].classList.add('hidden');
-
-    if (i < COMMENTS_SHOWN) {
-      socialCommentsNodeList[i].classList.remove('hidden');
-    }
-
-    if (socialCommentsNodeList.length > COMMENTS_SHOWN) {
-      bigPicturePreview.querySelector('.comments-loader').classList.remove('hidden');
-    }
-
-    bigPicturePreview.querySelector('.comments-loader').addEventListener('click', () => {
-      acc += COMMENTS_SHOWN;
-
-      if (i < acc) {
-        socialCommentsNodeList[i].classList.remove('hidden');
-      }
-
-      if (acc >= socialCommentsNodeList.length) {
-        acc = socialCommentsNodeList.length;
-        // bigPicturePreview.querySelector('.comments-loader').classList.add('hidden');
-      }
-
-      bigPicturePreview.querySelector('.social__comment-shown-count').textContent = acc;
-    });
-  }
 };
 
+export const commentsRender = () => {
+  const socialCommentsNodeList = socialComments.querySelectorAll('.social__comment');
+
+  socialCommentsNodeList.forEach((comment) => {
+    comment.classList.add('hidden');
+  }); // Скрывает все комментарии
+
+  let acc = COMMENTS_SHOWN; // Добавляет аккумулятор счетчика комментариев
+
+  if (acc >= socialCommentsNodeList.length) {
+    for (let i = 0; i < socialCommentsNodeList.length; i++) {
+      socialCommentsNodeList[i].classList.remove('hidden');
+    }
+  } else {
+    for (let i = 0; i < acc; i++) {
+      socialCommentsNodeList[i].classList.remove('hidden');
+    }
+  } // Показывает первую часть комментариев
+
+  bigPicturePreview.querySelector('.comments-loader').addEventListener('click', () => {
+    acc += COMMENTS_SHOWN;
+
+    if (acc >= socialCommentsNodeList.length) {
+      for (let i = 0; i < socialCommentsNodeList.length; i++) {
+        socialCommentsNodeList[i].classList.remove('hidden');
+      }
+      acc = socialCommentsNodeList.length;
+      bigPicturePreview.querySelector('.social__comment-shown-count').textContent = socialCommentsNodeList.length;
+      bigPicturePreview.querySelector('.comments-loader').classList.add('hidden');
+    } else {
+      for (let i = 0; i < acc; i++) {
+        socialCommentsNodeList[i].classList.remove('hidden');
+      }
+      bigPicturePreview.querySelector('.social__comment-shown-count').textContent = acc;
+    } // Показывает следующую часть комментариев, обновляет счетчик комментариев и, при необходимости, убирает кнопку загрузки новых.
+  });
+};
