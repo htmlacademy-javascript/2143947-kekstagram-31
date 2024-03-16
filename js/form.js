@@ -11,8 +11,70 @@ export const imgUploadFormRender = () => {
   imgUploadForm.querySelector('.img-upload__preview img').src = loadedImgUrl; // Вносит значение URL картинки в src шаблона
 
   for (let i = 0; i < effectsNodeList.length; i++) {
-    effectsNodeList[i].querySelector('.effects__preview').style.backgroundImage = `url(${loadedImgUrl})`;
+    effectsNodeList[i].querySelector('.effects__preview').style.backgroundImage = `url(${loadedImgUrl})`; // Вносит значение URL картинки в backgroundImage фильтров
   }
 };
 
+const pristine = new Pristine (imgUploadForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error',
+  errorTextTag: 'div',
+});
 
+/*
+- хэштеги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
+- если фокус находится в поле ввода хэштега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения. ?
+*/
+
+let hashtagErrorMessage = '';
+
+function validateHashtags(value) {
+  const hashtagsArray = value.split(' ');
+  const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
+  const tempArray = new Set(hashtagsArray);
+
+  if (hashtagsArray.length > 5) {
+    hashtagErrorMessage = 'превышено количество хэштегов';
+    return false;
+  }
+
+  if (tempArray.size !== hashtagsArray.length) {
+    hashtagErrorMessage = 'хэштеги повторяются';
+    return false;
+  }
+
+  for (const hashtag of hashtagsArray) {
+    if (!hashtagRegex.test(hashtag)) {
+      hashtagErrorMessage = 'введён невалидный хэштег';
+      return false;
+    }
+  }
+
+  return true;
+}
+
+pristine.addValidator(
+  imgUploadForm.querySelector('.text__hashtags'),
+  validateHashtags,
+  () => hashtagErrorMessage,
+);
+
+/*
+- если фокус находится в поле ввода комментария, нажатие на Esc не должно приводить к закрытию формы редактирования изображения. ???
+*/
+
+function validateComment(value) {
+  return value.length < 140;
+}
+
+pristine.addValidator(
+  imgUploadForm.querySelector('.text__description'),
+  validateComment,
+  'длина комментария больше 140 символов',
+);
+
+imgUploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  pristine.validate();
+});
