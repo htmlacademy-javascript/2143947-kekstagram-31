@@ -23,7 +23,6 @@ const pristine = new Pristine (imgUploadForm, {
 });
 
 /*
-- хэштеги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
 - если фокус находится в поле ввода хэштега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения. ?
 */
 
@@ -32,16 +31,20 @@ let hashtagErrorMessage = '';
 function validateHashtags(value) {
   const hashtagsArray = value.split(' ');
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
-  const tempArray = new Set(hashtagsArray);
+  const tempArray = Array.from(hashtagsArray);
 
   if (hashtagsArray.length > 5) {
     hashtagErrorMessage = 'превышено количество хэштегов';
     return false;
   }
 
-  if (tempArray.size !== hashtagsArray.length) {
-    hashtagErrorMessage = 'хэштеги повторяются';
-    return false;
+
+  for (let i = 0; i < tempArray.length; i++) {
+    tempArray[i] = tempArray[i].toUpperCase();
+    if (tempArray.indexOf(tempArray[i]) !== tempArray.lastIndexOf(tempArray[i])) {
+      hashtagErrorMessage = 'хэштеги повторяются';
+      return false;
+    }
   }
 
   for (const hashtag of hashtagsArray) {

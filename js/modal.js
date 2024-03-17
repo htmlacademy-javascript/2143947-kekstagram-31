@@ -67,9 +67,17 @@ function onDocumentKeydown(evt) {
     evt.preventDefault();
     bigPictureClose();
 
-    if (imgUploadInput.focus() === true || imgUploadTextarea.focus() === true) {
+    imgUploadInput.addEventListener('focus', () => {
       evt.stopPropagation();
-    }
+    });
+
+    imgUploadTextarea.addEventListener('focus', () => {
+      evt.stopPropagation();
+    });
+
+    // if (imgUploadInput.focus() === true || imgUploadTextarea.focus() === true) {
+    //   evt.stopPropagation();
+    // }
 
     imgUploadOverlayClose();
   }
