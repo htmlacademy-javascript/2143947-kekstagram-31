@@ -1,7 +1,7 @@
 import {isEscapeKey} from './util.js';
 import {otherUsersPicturesList} from './pictures.js';
 import {bigPictureRender, removeComments} from './big-picture.js';
-import {imgUpload, imgUploadFormRender} from './form.js';
+import {imgUpload, imgUploadFormRender, cleanForm} from './form.js';
 
 const body = document.querySelector('body');
 const bigPictureElement = document.querySelector('.big-picture');
@@ -58,27 +58,18 @@ imgUpload.addEventListener('input', () => {
   imgUploadFormRender();
 });
 
-imgUploadCancel.addEventListener('click', imgUploadOverlayClose);
+imgUploadCancel.addEventListener('click', () => {
+  imgUploadOverlayClose();
+  cleanForm();
+});
 
 // Функция закрытия модальных окон по нажатию кнопки на клавиатуре
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && !(imgUploadInput.matches(':focus') || imgUploadTextarea.matches(':focus'))) {
     evt.preventDefault();
     bigPictureClose();
-
-    imgUploadInput.addEventListener('focus', () => {
-      evt.stopPropagation();
-    });
-
-    imgUploadTextarea.addEventListener('focus', () => {
-      evt.stopPropagation();
-    });
-
-    // if (imgUploadInput.focus() === true || imgUploadTextarea.focus() === true) {
-    //   evt.stopPropagation();
-    // }
-
+    evt.stopPropagation();
     imgUploadOverlayClose();
   }
 }
