@@ -27,10 +27,6 @@ const pristine = new Pristine (imgUploadForm, {
   errorTextTag: 'div',
 });
 
-/*
-- если фокус находится в поле ввода хэштега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения. ?
-*/
-
 let hashtagErrorMessage = '';
 
 function validateHashtags(value) {
@@ -67,10 +63,6 @@ pristine.addValidator(
   () => hashtagErrorMessage,
 );
 
-/*
-- если фокус находится в поле ввода комментария, нажатие на Esc не должно приводить к закрытию формы редактирования изображения. ???
-*/
-
 function validateComment(value) {
   return value.length < 140;
 }
@@ -82,9 +74,18 @@ pristine.addValidator(
 );
 
 imgUploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
+  if (pristine.validate()) {
+    imgUploadForm.submit();
+  } else {
+    evt.preventDefault();
+  }
 });
+
+export const cleanForm = () => {
+  uploadedImgPreview.querySelector('img').src = '';
+  imgUploadForm.querySelector('.text__hashtags').value = '';
+  imgUploadForm.querySelector('.text__description').value = '';
+};
 
 // Масштабирование загруженного изображения
 
