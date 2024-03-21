@@ -30,6 +30,10 @@ const pristine = new Pristine (imgUploadForm, {
 let hashtagErrorMessage = '';
 
 function validateHashtags(value) {
+  if (!value.length) {
+    return true;
+  }
+
   const hashtagsArray = value.split(' ');
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
   const tempArray = Array.from(hashtagsArray);
