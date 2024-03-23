@@ -127,6 +127,7 @@ const sliderContainer = imgUploadForm.querySelector('.img-upload__effect-level')
 const sliderLevelInput = imgUploadForm.querySelector('.effect-level__value');
 const sliderLevelCount = imgUploadForm.querySelector('.effect-level__value');
 const sliderElement = imgUploadForm.querySelector('.effect-level__slider');
+const effectsRadios = imgUploadForm.querySelectorAll('.effects__radio');
 const originalEffect = imgUploadForm.querySelector('#effect-none');
 const chromeEffect = imgUploadForm.querySelector('#effect-chrome');
 const sepiaEffect = imgUploadForm.querySelector('#effect-sepia');
@@ -153,107 +154,99 @@ if (originalEffect.checked) {
   sliderContainer.classList.add('hidden');
 }
 
-originalEffect.addEventListener('change',() => {
-  if (originalEffect.checked) {
-    sliderContainer.classList.add('hidden');
+for (const effectRadio of effectsRadios) {
+  effectRadio.addEventListener('change',() => {
+    if (originalEffect.checked) {
+      sliderContainer.classList.add('hidden');
 
-    uploadedImgPreview.style.filter = '';
-  }
-});
+      uploadedImgPreview.style.filter = '';
+    }
 
-chromeEffect.addEventListener('change',() => {
-  if (chromeEffect.checked) {
-    sliderContainer.classList.remove('hidden');
+    if (chromeEffect.checked) {
+      sliderContainer.classList.remove('hidden');
 
-    sliderElement.noUiSlider.updateOptions({
-      start: 1,
-      range: {
-        'min': 0,
-        'max': 1,
-      },
-      step: 0.1,
-    });
+      sliderElement.noUiSlider.updateOptions({
+        start: 1,
+        range: {
+          'min': 0,
+          'max': 1,
+        },
+        step: 0.1,
+      });
 
-    sliderElement.noUiSlider.on('update', () => {
-      uploadedImgPreview.style.filter = `grayscale(${sliderLevelInput.value})`;
-    });
-  }
-});
+      sliderElement.noUiSlider.on('update', () => {
+        uploadedImgPreview.style.filter = `grayscale(${sliderLevelInput.value})`;
+      });
+    }
 
-sepiaEffect.addEventListener('change',() => {
-  if (sepiaEffect.checked) {
-    sliderContainer.classList.remove('hidden');
+    if (sepiaEffect.checked) {
+      sliderContainer.classList.remove('hidden');
 
-    sliderElement.noUiSlider.updateOptions({
-      start: 1,
-      range: {
-        'min': 0,
-        'max': 1,
-      },
-      step: 0.1,
-    });
+      sliderElement.noUiSlider.updateOptions({
+        start: 1,
+        range: {
+          'min': 0,
+          'max': 1,
+        },
+        step: 0.1,
+      });
 
-    sliderElement.noUiSlider.on('update', () => {
-      uploadedImgPreview.style.filter = `sepia(${sliderLevelInput.value})`;
-    });
-  }
-});
+      sliderElement.noUiSlider.on('update', () => {
+        uploadedImgPreview.style.filter = `sepia(${sliderLevelInput.value})`;
+      });
+    }
 
-marvinEffect.addEventListener('change',() => {
-  if (marvinEffect.checked) {
-    sliderContainer.classList.remove('hidden');
+    if (marvinEffect.checked) {
+      sliderContainer.classList.remove('hidden');
 
-    sliderElement.noUiSlider.updateOptions({
-      start: 100,
-      range: {
-        'min': 0,
-        'max': 100,
-      },
-      step: 1,
-    });
+      sliderElement.noUiSlider.updateOptions({
+        start: 100,
+        range: {
+          'min': 0,
+          'max': 100,
+        },
+        step: 1,
+      });
 
-    sliderElement.noUiSlider.on('update', () => {
-      uploadedImgPreview.style.filter = `invert(${sliderLevelInput.value}%)`;
-    });
-  }
-});
+      sliderElement.noUiSlider.on('update', () => {
+        uploadedImgPreview.style.filter = `invert(${sliderLevelInput.value}%)`;
+      });
+    }
 
-phobosEffect.addEventListener('change',() => {
-  if (phobosEffect.checked) {
-    sliderContainer.classList.remove('hidden');
+    if (phobosEffect.checked) {
+      sliderContainer.classList.remove('hidden');
 
-    sliderElement.noUiSlider.updateOptions({
-      start: 3,
-      range: {
-        'min': 0,
-        'max': 3,
-      },
-      step: 0.1,
-    });
+      sliderElement.noUiSlider.updateOptions({
+        start: 3,
+        range: {
+          'min': 0,
+          'max': 3,
+        },
+        step: 0.1,
+      });
 
-    sliderElement.noUiSlider.on('update', () => {
-      uploadedImgPreview.style.filter = `blur(${sliderLevelInput.value}px)`;
-    });
-  }
-});
+      sliderElement.noUiSlider.on('update', () => {
+        uploadedImgPreview.style.filter = `blur(${sliderLevelInput.value}px)`;
+      });
+    }
 
-heatEffect.addEventListener('change',() => {
-  if (heatEffect.checked) {
-    sliderContainer.classList.remove('hidden');
+    if (heatEffect.checked) {
+      sliderContainer.classList.remove('hidden');
 
-    sliderElement.noUiSlider.updateOptions({
-      start: 3,
-      range: {
-        'min': 1,
-        'max': 3,
-      },
-      step: 0.1,
-    });
+      sliderElement.noUiSlider.updateOptions({
+        start: 3,
+        range: {
+          'min': 1,
+          'max': 3,
+        },
+        step: 0.1,
+      });
 
-    sliderElement.noUiSlider.on('update', () => {
-      uploadedImgPreview.style.filter = `brightness(${sliderLevelInput.value})`;
-    });
-  }
-});
+      sliderElement.noUiSlider.on('update', () => {
+        uploadedImgPreview.style.filter = `brightness(${sliderLevelInput.value})`;
+      });
+    }
+  });
+}
 
 
