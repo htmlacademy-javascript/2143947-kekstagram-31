@@ -1,8 +1,8 @@
-import {gallery} from './pictures.js';
-import {COMMENTS_SHOWN} from './data.js';
+// import {gallery} from './pictures.js';
 
 const bigPicturePreview = document.querySelector('.big-picture__preview');
 const commentsLoader = document.querySelector('.social__comments-loader');
+const COMMENTS_SHOWN = 5;
 let commentsContainer = document.querySelector('.social__comments');
 let shown = 0;
 let photo = null;

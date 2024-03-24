@@ -1,3 +1,6 @@
+import {sendData} from './api.js';
+import {showUploadError, showUploadSuccess} from './alerts.js';
+
 const imgUploadForm = document.querySelector('.img-upload__form');
 export const imgUpload = imgUploadForm.querySelector('.img-upload__input');
 const imgUploadEffects = imgUploadForm.querySelector('.img-upload__effects');
@@ -77,13 +80,22 @@ pristine.addValidator(
   'длина комментария больше 140 символов',
 );
 
-imgUploadForm.addEventListener('submit', (evt) => {
-  if (pristine.validate()) {
-    imgUploadForm.submit();
-  } else {
+export const setUserPhotoSubmit = (onSuccess) => {
+  imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  }
-});
+
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      sendData(
+        () => onSuccess(),
+        () => showUploadSuccess(),
+        () => showUploadError(),
+        new FormData(evt.target),
+      );
+    }
+  });
+};
 
 export const cleanForm = () => {
   uploadedImgPreview.querySelector('img').src = '';
