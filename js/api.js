@@ -1,4 +1,4 @@
-import {renderOtherUsersPictures} from './pictures.js';
+import {showDataError} from './alerts.js';
 
 const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 const Route = {
@@ -6,13 +6,22 @@ const Route = {
   SEND_DATA: '/',
 };
 
-fetch(`${BASE_URL}${Route.GET_DATA}`)
-  .then((response) => response.json())
-  .then((photos) => {
-    renderOtherUsersPictures(photos);
-  });
+export let getData;
 
-export const sendData = (onSuccess, onSuccessMessage, onFailure, body) => {
+try {
+  getData = await fetch(`${BASE_URL}${Route.GET_DATA}`).then((response) => {
+    if (response.status !== 200) {
+      showDataError();
+    }
+
+    return response.json();
+  });
+} catch {
+  showDataError();
+}
+
+
+export const sendData = (onSuccess, onSuccessMessage, onFailure, unblock, body) => {
   fetch(
     `${BASE_URL}${Route.SEND_DATA}`,
     {
@@ -29,5 +38,8 @@ export const sendData = (onSuccess, onSuccessMessage, onFailure, body) => {
     })
     .catch(() => {
       onFailure();
+    })
+    .finally(() => {
+      unblock();
     });
 };
