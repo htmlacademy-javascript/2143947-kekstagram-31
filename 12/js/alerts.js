@@ -71,3 +71,19 @@ function onWindowClickCloseSuccess(evt) {
     closeUploadSuccess();
   }
 }
+
+// Открытие и закрытие окна ошибки получения изображний других пользователей
+
+const dataError = document.querySelector('#data-error').content.querySelector('.data-error');
+const ALERT_SHOW_TIME = 5000;
+
+export const showDataError = () => {
+  document.body.append(dataError);
+  document.body.classList.add('modal-open');
+
+  setTimeout(() => {
+    document.body.removeChild(dataError);
+    document.body.classList.add('modal-open');
+  }, ALERT_SHOW_TIME);
+};
+

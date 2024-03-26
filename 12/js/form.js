@@ -23,6 +23,12 @@ export const imgUploadFormRender = () => {
 
 // Валидация формы
 
+const submitButton = imgUploadForm.querySelector('.img-upload__submit');
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
+
 const pristine = new Pristine (imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -80,6 +86,16 @@ pristine.addValidator(
   'длина комментария больше 140 символов',
 );
 
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
+
 export const setUserPhotoSubmit = (onSuccess) => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -87,10 +103,12 @@ export const setUserPhotoSubmit = (onSuccess) => {
     const isValid = pristine.validate();
 
     if (isValid) {
+      blockSubmitButton();
       sendData(
         () => onSuccess(),
         () => showUploadSuccess(),
         () => showUploadError(),
+        () => unblockSubmitButton(),
         new FormData(evt.target),
       );
     }

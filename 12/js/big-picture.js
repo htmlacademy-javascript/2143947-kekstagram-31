@@ -1,4 +1,4 @@
-// import {gallery} from './pictures.js';
+import {gallery} from './pictures.js';
 
 const bigPicturePreview = document.querySelector('.big-picture__preview');
 const commentsLoader = document.querySelector('.social__comments-loader');
