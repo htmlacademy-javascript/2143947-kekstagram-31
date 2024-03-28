@@ -17,7 +17,6 @@ getData.forEach((photo) => {
 });
 
 otherUsersPicturesList.appendChild(otherUserPictureFragment);
-console.log(otherUsersPicturesList.children);
 
 imgFiltersContainer.classList.remove('img-filters--inactive');
 
@@ -30,6 +29,7 @@ export const gallery = new Map(temp);
 
 // Переключение кнопок фильтрации изображений и сортировка
 
+const otherUsersPictures = otherUsersPicturesList.querySelectorAll('.picture');
 const imgFiltersForm = imgFiltersContainer.querySelector('.img-filters__form');
 const imgFiltersButtons = imgFiltersContainer.querySelectorAll('.img-filters__button');
 const RANDOM_PHOTOS_COUNT = 10;
@@ -43,7 +43,11 @@ imgFiltersForm.addEventListener('click', (evt) => {
   if (imgFiltersForm.querySelector('#filter-default').classList.contains('img-filters__button--active')) {
     console.log('default');
 
-    otherUsersPicturesList.innerHTML = null;
+    // otherUsersPicturesList.innerHTML = null;
+
+    for (const userPicture of otherUsersPictures) {
+      otherUsersPicturesList.removeChild(userPicture);
+    }
 
     getData.forEach((photo) => {
       const otherUserPictureElement = otherUserPictureTemplate.cloneNode(true);
@@ -61,7 +65,11 @@ imgFiltersForm.addEventListener('click', (evt) => {
   if (imgFiltersForm.querySelector('#filter-random').classList.contains('img-filters__button--active')) {
     console.log('random');
 
-    otherUsersPicturesList.innerHTML = null;
+    // otherUsersPicturesList.innerHTML = null;
+
+    for (const userPicture of otherUsersPictures) {
+      otherUsersPicturesList.removeChild(userPicture);
+    }
 
     getData
       .slice()
