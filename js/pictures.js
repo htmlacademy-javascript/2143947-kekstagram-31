@@ -41,8 +41,6 @@ imgFiltersForm.addEventListener('click', (evt) => {
   }
 
   if (imgFiltersForm.querySelector('#filter-default').classList.contains('img-filters__button--active')) {
-    console.log('default');
-
     // otherUsersPicturesList.innerHTML = null;
 
     for (const userPicture of otherUsersPictures) {
@@ -63,8 +61,6 @@ imgFiltersForm.addEventListener('click', (evt) => {
   }
 
   if (imgFiltersForm.querySelector('#filter-random').classList.contains('img-filters__button--active')) {
-    console.log('random');
-
     // otherUsersPicturesList.innerHTML = null;
 
     for (const userPicture of otherUsersPictures) {
@@ -87,9 +83,9 @@ imgFiltersForm.addEventListener('click', (evt) => {
     otherUsersPicturesList.appendChild(otherUserPictureFragment);
   }
 
-  if (imgFiltersForm.querySelector('#filter-discussed').classList.contains('img-filters__button--active')) {
-    console.log('discussed');
-  }
+  // if (imgFiltersForm.querySelector('#filter-discussed').classList.contains('img-filters__button--active')) {
+
+  // }
 });
 
 
