@@ -3,15 +3,11 @@ import {otherUsersPicturesList} from './pictures.js';
 import {bigPictureRender, removeComments} from './big-picture.js';
 import {imgUpload, imgUploadFormRender, cleanForm} from './form.js';
 
+// Открытие и закрытие модальных окон с изображениями пользователей
+
 const body = document.querySelector('body');
 const bigPictureElement = document.querySelector('.big-picture');
 const bigPictureCloseElement = document.querySelector('.big-picture__cancel');
-const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-const imgUploadCancel = document.querySelector('.img-upload__cancel');
-const imgUploadInput = document.querySelector('.text__hashtags');
-const imgUploadTextarea = document.querySelector('.text__description');
-
-// Открытие и закрытие модальных окон с изображениями пользователей
 
 const bigPictureOpen = () => {
   bigPictureElement.classList.remove('hidden');
@@ -39,14 +35,19 @@ bigPictureCloseElement.addEventListener('click', bigPictureClose);
 
 // Открытие и закрытие модального окна загрузки и редактирования пользовательского изображения
 
-const imgUploadOverlayOpen = () => {
+const imgUploadOverlay = document.querySelector('.img-upload__overlay');
+const imgUploadCancel = document.querySelector('.img-upload__cancel');
+const imgUploadInput = document.querySelector('.text__hashtags');
+const imgUploadTextarea = document.querySelector('.text__description');
+
+export const imgUploadOverlayOpen = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const imgUploadOverlayClose = () => {
+export const imgUploadOverlayClose = () => {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
 
@@ -71,5 +72,6 @@ function onDocumentKeydown(evt) {
     bigPictureClose();
     evt.stopPropagation();
     imgUploadOverlayClose();
+    cleanForm();
   }
 }

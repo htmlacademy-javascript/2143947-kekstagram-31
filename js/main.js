@@ -1,3 +1,7 @@
 import './pictures.js';
-import './modal.js';
-import './form.js';
+import './api.js';
+
+import {imgUploadOverlayClose} from './modal.js';
+import {setUserPhotoSubmit} from './form.js';
+
+setUserPhotoSubmit(imgUploadOverlayClose);
