@@ -54,7 +54,7 @@ export const imgUploadOverlayClose = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-imgUpload.addEventListener('input', () => {
+imgUpload.addEventListener('change', () => {
   imgUploadOverlayOpen();
   imgUploadFormRender();
 });

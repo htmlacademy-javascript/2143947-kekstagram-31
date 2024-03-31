@@ -6,18 +6,27 @@ export const imgUpload = imgUploadForm.querySelector('.img-upload__input');
 const imgUploadEffects = imgUploadForm.querySelector('.img-upload__effects');
 const effectsNodeList = imgUploadEffects.querySelectorAll('.effects__item');
 const uploadedImgPreview = imgUploadForm.querySelector('.img-upload__preview');
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
+imgUpload.value = '';
 
 // Загрузка изображения в форму
 
 export const imgUploadFormRender = () => {
-  uploadedImgPreview.querySelector('img').src = ''; // Обнуляет значение src шаблонного изображения, чтобы не было "промаргивания"
-
   const loadedImg = imgUpload.files[0];
-  const loadedImgUrl = URL.createObjectURL(loadedImg); // Забирает URL с загруженной картинки
-  uploadedImgPreview.querySelector('img').src = loadedImgUrl; // Вносит значение URL картинки в src шаблона
+  const fileName = loadedImg.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
-  for (let i = 0; i < effectsNodeList.length; i++) {
-    effectsNodeList[i].querySelector('.effects__preview').style.backgroundImage = `url(${loadedImgUrl})`; // Вносит значение URL картинки в backgroundImage фильтров
+  uploadedImgPreview.querySelector('img').src = '';
+
+  if (matches) {
+    const loadedImgUrl = URL.createObjectURL(loadedImg);
+
+    uploadedImgPreview.querySelector('img').src = URL.createObjectURL(loadedImg);
+
+    for (let i = 0; i < effectsNodeList.length; i++) {
+      effectsNodeList[i].querySelector('.effects__preview').style.backgroundImage = `url(${loadedImgUrl})`;
+    }
   }
 };
 
@@ -115,8 +124,13 @@ export const setUserPhotoSubmit = (onSuccess) => {
   });
 };
 
+
+pristine.reset();
+pristine.destroy();
+
 export const cleanForm = () => {
   uploadedImgPreview.querySelector('img').src = '';
+  imgUpload.value = '';
   imgUploadForm.querySelector('.text__hashtags').value = '';
   imgUploadForm.querySelector('.text__description').value = '';
 };
@@ -127,12 +141,11 @@ const scaleControl = imgUploadForm.querySelector('.scale__control--value');
 const scaleBiggerButton = imgUploadForm.querySelector('.scale__control--bigger');
 const scaleSmallerButton = imgUploadForm.querySelector('.scale__control--smaller');
 let scaleCounter = parseInt(scaleControl.value, 10);
-scaleControl.readonly = scaleCounter / 100;
 
 const changeScale = () => {
-  scaleControl.value = `${scaleCounter}%`;
-  scaleControl.readonly = scaleCounter / 100;
-  uploadedImgPreview.style.transform = `scale(${scaleControl.readonly})`;
+  const scale = scaleCounter / 100;
+  scaleControl.setAttribute('value', `${scaleCounter}%`);
+  uploadedImgPreview.style.transform = `scale(${scale})`;
 };
 
 scaleBiggerButton.addEventListener('click', (evt) => {

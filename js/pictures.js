@@ -23,14 +23,18 @@ const renderPictures = (photosArray) => {
   otherUsersPicturesList.appendChild(otherUserPictureFragment);
 };
 
-renderPictures(getData);
+let temp;
 
-imgFiltersContainer.classList.remove('img-filters--inactive');
+if (getData !== undefined) {
+  renderPictures(getData);
 
-const temp = getData.reduce((acc, value) => {
-  acc.push([value.id.toString(), value]);
-  return acc;
-}, []);
+  imgFiltersContainer.classList.remove('img-filters--inactive');
+
+  temp = getData.reduce((acc, value) => {
+    acc.push([value.id.toString(), value]);
+    return acc;
+  }, []);
+}
 
 export const gallery = new Map(temp);
 
@@ -85,9 +89,8 @@ imgFiltersForm.addEventListener('click', (evt) => {
     }
   };
 
-  // renderPicturesList(getData);
-
-  debounce(() => renderPicturesList(getData), RERENDER_DELAY);
+  const debounceFunc = debounce(() => renderPicturesList(getData), RERENDER_DELAY);
+  debounceFunc();
 });
 
 
