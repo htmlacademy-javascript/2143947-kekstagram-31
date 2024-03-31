@@ -1,8 +1,9 @@
 import './pictures.js';
 import './api.js';
+import './modal.js';
+import './effects.js';
 
-
-import {imgUploadOverlayClose} from './modal.js';
+import {imgUploadOverlayClose} from './form-modal.js';
 import {setUserPhotoSubmit} from './form.js';
 
 setUserPhotoSubmit(imgUploadOverlayClose);
@@ -13,6 +14,7 @@ setUserPhotoSubmit(imgUploadOverlayClose);
 
 Раздел EDIT:
 1. Не перезаписывает value в scale__control--value (переменная scaleControl)??? Реально перезаписывает!!!
+Timed out retrying after 4000ms: expected '<input.scale__control.scale__control--value>' to have value '75%', but the value was '100%'
 2. Сброс значения при переключении фильтра. Не показывается слайдер???
 This element <div.noUi-handle.noUi-handle-lower> is not visible because its parent <div.img-upload__overlay.hidden> has CSS property: display: none
 3. Наложение эффекта на изображение. То ли не накладывается фильтр, то ли спадает???
@@ -60,28 +62,28 @@ This element <div.img-upload__overlay.hidden> is not visible because it has CSS 
 
 Раздел POST:
 1.Отправка данных формы. Не показывается форма???
-2. Неправильно заполненную форму невозможно отправить. Error. Данные отправлены! ???
-3. Сообщения об ошибках различаются. Не показывается форма???
-4. При успешной отправке форма очищается и закрывается. Не показывается форма???
-5. Eсли отправка данных прошла успешно, показывается соответствующее сообщение. Failed to read a named property '$' from 'Window':
+This element <input.text__hashtags> is not visible because its parent <div.img-upload__overlay.hidden> has CSS property: display: none
+2. На время отправки кнопка блокируется.
+Failed to read a named property '$' from 'Window': Blocked a frame with origin "http://localhost:3000" from accessing a cross-origin frame.
+3. Неправильно заполненную форму невозможно отправить. Error. Данные отправлены! ???
+This element <input.text__hashtags> is not visible because its parent <div.img-upload__overlay.hidden> has CSS property: display: none
+4. Сообщения об ошибках различаются. Не показывается форма???
+This element <input.text__hashtags> is not visible because its parent <div.img-upload__overlay.hidden> has CSS property: display: none
+5. При успешной отправке форма очищается и закрывается. Не показывается форма???
+This element <input.text__hashtags> is not visible because its parent <div.img-upload__overlay.hidden> has CSS property: display: none
+6. Eсли отправка данных прошла успешно, показывается соответствующее сообщение. Failed to read a named property '$' from 'Window':
 Blocked a frame with origin "http://localhost:3000" from accessing a cross-origin frame.
-6. Cообщение об успехе исчезает после нажатия на кнопку. Failed to read a named property '$' from 'Window':
+7. Cообщение об успехе исчезает после нажатия на кнопку. Failed to read a named property '$' from 'Window':
 Blocked a frame with origin "http://localhost:3000" from accessing a cross-origin frame.
-7. Cообщение об ошибке исчезает после нажатия на кнопку. Failed to read a named property '$' from 'Window':
+8. Cообщение об ошибке исчезает после нажатия на кнопку. Failed to read a named property '$' from 'Window':
 Blocked a frame with origin "http://localhost:3000" from accessing a cross-origin frame.
-8. Cообщение об ошибке исчезает по нажатию на клавишу Esc, но форма остаётся. Не показывается форма???
-9. При отмене форма закрывается и очищается. Не показывается форма???
+9. Cообщение об ошибке исчезает по нажатию на клавишу Esc, но форма остаётся. Не показывается форма???
+10. При отмене форма закрывается и очищается. Не показывается форма???
 
 Ошибки появляются случайно при повторных тестах. Может быть больше или меньше. ???
 
 Раздел UPLOAD:
-1. Открытие формы редактирования. Не показывается форма???
-This element <div.img-upload__overlay.hidden> is not visible because it has CSS property: display: none
-2. Повторная загрузка изображения. expected '<input#upload-file.img-upload__input.visually-hidden>' to have value '',
-but the value was 'C:\fakepath\JavaScript-logo.png'. Не очищается форма???
-
-
-Иногда все тесты UPLOAD проходят без ошибок, иногда падают все! ???
+Иногда все тесты UPLOAD проходят без ошибок, иногда падают либо все, либо частично! ???
 
 Раздел VIEW:
 Все тесты проходят.
