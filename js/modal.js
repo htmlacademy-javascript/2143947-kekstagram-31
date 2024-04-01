@@ -1,9 +1,6 @@
 import {isEscapeKey} from './util.js';
 import {otherUsersPicturesList} from './pictures.js';
 import {bigPictureRender, removeComments} from './big-picture.js';
-import {imgUpload, imgUploadFormRender, cleanForm} from './form.js';
-
-// Открытие и закрытие модальных окон с изображениями пользователей
 
 const body = document.querySelector('body');
 const bigPictureElement = document.querySelector('.big-picture');
@@ -33,45 +30,9 @@ otherUsersPicturesList.addEventListener('click', (evt) => {
 
 bigPictureCloseElement.addEventListener('click', bigPictureClose);
 
-// Открытие и закрытие модального окна загрузки и редактирования пользовательского изображения
-
-const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-const imgUploadCancel = document.querySelector('.img-upload__cancel');
-const imgUploadInput = document.querySelector('.text__hashtags');
-const imgUploadTextarea = document.querySelector('.text__description');
-
-export const imgUploadOverlayOpen = () => {
-  imgUploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
-
-  document.addEventListener('keydown', onDocumentKeydown);
-};
-
-export const imgUploadOverlayClose = () => {
-  imgUploadOverlay.classList.add('hidden');
-  body.classList.remove('modal-open');
-
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
-
-imgUpload.addEventListener('input', () => {
-  imgUploadOverlayOpen();
-  imgUploadFormRender();
-});
-
-imgUploadCancel.addEventListener('click', () => {
-  imgUploadOverlayClose();
-  cleanForm();
-});
-
-// Функция закрытия модальных окон по нажатию кнопки на клавиатуре
-
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt) && !(imgUploadInput.matches(':focus') || imgUploadTextarea.matches(':focus'))) {
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
     bigPictureClose();
-    evt.stopPropagation();
-    imgUploadOverlayClose();
-    cleanForm();
   }
 }
