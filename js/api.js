@@ -9,7 +9,7 @@ const Route = {
 export let getData;
 
 try {
-  getData = await fetch(`${BASE_URL}${Route.GET_DATA}`).then((response) => {
+  getData = fetch(`${BASE_URL}${Route.GET_DATA}`).then((response) => {
     if (response.status !== 200) {
       showDataError();
     }
