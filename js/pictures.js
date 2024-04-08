@@ -24,11 +24,9 @@ const renderPictures = (photosArray) => {
 };
 
 let temp;
-let data;
+const data = await getData;
 
-if (getData !== undefined) {
-  data = await getData;
-
+if (data !== undefined) {
   renderPictures(data);
 
   imgFiltersContainer.classList.remove('img-filters--inactive');
