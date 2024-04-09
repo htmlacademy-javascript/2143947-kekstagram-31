@@ -27,9 +27,21 @@ function validateHashtags(value) {
     return true;
   }
 
-  const hashtagsArray = value.split(' ');
+  const hashtagsArray = value.split(' ').filter((hashtag) => {
+    if (hashtag !== ' ') {
+      return hashtag;
+    }
+  });
+
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
   const tempArray = Array.from(hashtagsArray);
+
+  for (const hashtag of hashtagsArray) {
+    if (!hashtagRegex.test(hashtag)) {
+      hashtagErrorMessage = 'введён невалидный хэштег';
+      return false;
+    }
+  }
 
   if (hashtagsArray.length > 5) {
     hashtagErrorMessage = 'превышено количество хэштегов';
@@ -40,13 +52,6 @@ function validateHashtags(value) {
     tempArray[i] = tempArray[i].toUpperCase();
     if (tempArray.indexOf(tempArray[i]) !== tempArray.lastIndexOf(tempArray[i])) {
       hashtagErrorMessage = 'хэштеги повторяются';
-      return false;
-    }
-  }
-
-  for (const hashtag of hashtagsArray) {
-    if (!hashtagRegex.test(hashtag)) {
-      hashtagErrorMessage = 'введён невалидный хэштег';
       return false;
     }
   }
@@ -95,9 +100,12 @@ export const setUserPhotoSubmit = (onSuccess) => {
         () => unblockSubmitButton(),
         new FormData(evt.target),
       );
+      destroyPristine();
     }
   });
 };
 
-pristine.reset();
-pristine.destroy();
+export function destroyPristine() {
+  pristine.reset();
+  pristine.destroy();
+}

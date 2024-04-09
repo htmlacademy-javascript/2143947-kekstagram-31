@@ -2,6 +2,7 @@ import {imgUploadForm, uploadedImgPreview} from './form.js';
 
 // Масштабирование загруженного изображения
 
+const uploadedImg = uploadedImgPreview.querySelector('img');
 const scaleControl = imgUploadForm.querySelector('.scale__control--value');
 const scaleBiggerButton = imgUploadForm.querySelector('.scale__control--bigger');
 const scaleSmallerButton = imgUploadForm.querySelector('.scale__control--smaller');
@@ -11,6 +12,7 @@ const changeScale = () => {
   const scale = scaleCounter / 100;
   scaleControl.setAttribute('value', `${scaleCounter}%`);
   uploadedImgPreview.style.transform = `scale(${scale})`;
+  uploadedImg.style.transform = `scale(${scale})`;
 };
 
 scaleBiggerButton.addEventListener('click', (evt) => {
@@ -29,6 +31,10 @@ scaleSmallerButton.addEventListener('click', (evt) => {
   }
 });
 
+export const scaleControlReset = () => {
+  scaleControl.setAttribute('value', '100%');
+};
+
 // Эффекты для изображения
 
 const sliderContainer = imgUploadForm.querySelector('.img-upload__effect-level');
@@ -36,7 +42,7 @@ const sliderLevelInput = imgUploadForm.querySelector('.effect-level__value');
 const sliderLevelCount = imgUploadForm.querySelector('.effect-level__value');
 const sliderElement = imgUploadForm.querySelector('.effect-level__slider');
 const effectsRadios = imgUploadForm.querySelectorAll('.effects__radio');
-const originalEffect = imgUploadForm.querySelector('#effect-none');
+export const originalEffect = imgUploadForm.querySelector('#effect-none');
 const chromeEffect = imgUploadForm.querySelector('#effect-chrome');
 const sepiaEffect = imgUploadForm.querySelector('#effect-sepia');
 const marvinEffect = imgUploadForm.querySelector('#effect-marvin');
@@ -49,6 +55,17 @@ noUiSlider.create(sliderElement, {
   range: {
     'min': 0,
     'max': 1,
+  },
+  format: {
+    to: function (value) {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(1);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
   },
   step: 0.1,
 });
@@ -67,7 +84,7 @@ for (const effectRadio of effectsRadios) {
     if (originalEffect.checked) {
       sliderContainer.classList.add('hidden');
 
-      uploadedImgPreview.style.filter = '';
+      uploadedImg.style.filter = '';
     }
 
     if (chromeEffect.checked) {
@@ -83,7 +100,7 @@ for (const effectRadio of effectsRadios) {
       });
 
       sliderElement.noUiSlider.on('update', () => {
-        uploadedImgPreview.style.filter = `grayscale(${sliderLevelInput.value})`;
+        uploadedImg.style.filter = `grayscale(${sliderLevelInput.value})`;
       });
     }
 
@@ -100,7 +117,7 @@ for (const effectRadio of effectsRadios) {
       });
 
       sliderElement.noUiSlider.on('update', () => {
-        uploadedImgPreview.style.filter = `sepia(${sliderLevelInput.value})`;
+        uploadedImg.style.filter = `sepia(${sliderLevelInput.value})`;
       });
     }
 
@@ -117,7 +134,7 @@ for (const effectRadio of effectsRadios) {
       });
 
       sliderElement.noUiSlider.on('update', () => {
-        uploadedImgPreview.style.filter = `invert(${sliderLevelInput.value}%)`;
+        uploadedImg.style.filter = `invert(${sliderLevelInput.value}%)`;
       });
     }
 
@@ -134,7 +151,7 @@ for (const effectRadio of effectsRadios) {
       });
 
       sliderElement.noUiSlider.on('update', () => {
-        uploadedImgPreview.style.filter = `blur(${sliderLevelInput.value}px)`;
+        uploadedImg.style.filter = `blur(${sliderLevelInput.value}px)`;
       });
     }
 
@@ -151,7 +168,7 @@ for (const effectRadio of effectsRadios) {
       });
 
       sliderElement.noUiSlider.on('update', () => {
-        uploadedImgPreview.style.filter = `brightness(${sliderLevelInput.value})`;
+        uploadedImg.style.filter = `brightness(${sliderLevelInput.value})`;
       });
     }
   });

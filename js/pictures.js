@@ -24,13 +24,14 @@ const renderPictures = (photosArray) => {
 };
 
 let temp;
+const data = await getData;
 
-if (getData !== undefined) {
-  renderPictures(getData);
+if (data !== undefined) {
+  renderPictures(data);
 
   imgFiltersContainer.classList.remove('img-filters--inactive');
 
-  temp = getData.reduce((acc, value) => {
+  temp = data.reduce((acc, value) => {
     acc.push([value.id.toString(), value]);
     return acc;
   }, []);
@@ -89,7 +90,7 @@ imgFiltersForm.addEventListener('click', (evt) => {
     }
   };
 
-  const debounceFunc = debounce(() => renderPicturesList(getData), RERENDER_DELAY);
+  const debounceFunc = debounce(() => renderPicturesList(data), RERENDER_DELAY);
   debounceFunc();
 });
 

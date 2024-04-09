@@ -1,6 +1,7 @@
 import {isEscapeKey} from './util.js';
-import {imgUploadForm, imgUpload, uploadedImgPreview} from './form.js';
+import {imgUploadForm, imgUpload, uploadedImgPreview, destroyPristine} from './form.js';
 import {imgUploadFormRender, loadedImgUrl} from './upload-image.js';
+import {scaleControlReset, originalEffect} from './effects.js';
 
 const body = document.querySelector('body');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -35,7 +36,7 @@ imgUploadCancel.addEventListener('click', () => {
 });
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt) && !(imgUploadInput.matches(':focus') || imgUploadTextarea.matches(':focus'))) {
+  if (isEscapeKey(evt) && !(imgUploadInput.matches(':focus') || imgUploadTextarea.matches(':focus')) && !document.querySelector('.error')) {
     evt.preventDefault();
     evt.stopPropagation();
     imgUploadOverlayClose();
@@ -50,5 +51,8 @@ function cleanForm() {
   imgUpload.value = '';
   imgUploadForm.querySelector('.text__hashtags').value = '';
   imgUploadForm.querySelector('.text__description').value = '';
+  scaleControlReset();
+  originalEffect.checked = true;
+  destroyPristine();
 }
 

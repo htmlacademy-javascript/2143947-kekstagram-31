@@ -6,20 +6,17 @@ const Route = {
   SEND_DATA: '/',
 };
 
-export let getData;
-
-try {
-  getData = await fetch(`${BASE_URL}${Route.GET_DATA}`).then((response) => {
+export const getData = fetch(`${BASE_URL}${Route.GET_DATA}`)
+  .then((response) => {
     if (response.status !== 200) {
       showDataError();
     }
 
     return response.json();
+  })
+  .catch(() => {
+    showDataError();
   });
-} catch {
-  showDataError();
-}
-
 
 export const sendData = (onSuccess, onSuccessMessage, onFailure, unblock, body) => {
   fetch(

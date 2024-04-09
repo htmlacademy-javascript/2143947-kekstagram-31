@@ -2,7 +2,7 @@ import {isEscapeKey} from './util.js';
 
 // Открытие и закрытие окна ошибки загрузки изображения
 
-const uploadError = document.querySelector('#error').content.querySelector('.error');
+export const uploadError = document.querySelector('#error').content.querySelector('.error');
 const errorButton = uploadError.querySelector('.error__button');
 
 export const showUploadError = () => {
